@@ -10,17 +10,18 @@ services:
             - mototrack
         # command: python main.py
 
-    # ui:
-    #     build:
-    #         context: ./ui
-    #         dockerfile: Dockerfile
-    #     volumes:
-    #         - ./ui:/app
-    #     ports:
-    #         - "5173:5173"
-    #     networks:
-    #         - mototrack
-    #     command: "npm run dev -- --host 0.0.0.0"
+    ui:
+        build:
+            context: ./ui
+            dockerfile: Dockerfile
+        volumes:
+            - ./ui:/app
+        ports:
+            - "5173:5173"
+        networks:
+            - mototrack
+        command: "npm run dev -- --host 0.0.0.0"
+        # command: "tail -f /dev/null"
 
     postgres:
         image: postgres:17.2-alpine3.21
