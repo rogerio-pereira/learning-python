@@ -2,15 +2,17 @@ FROM node:25-bullseye
 
 RUN npm install -g http-server
 
-# RUN npx playwright install --with-deps
+RUN npx playwright install && \
+    npx playwright install --with-deps
 
 RUN apt-get update && \
     apt-get upgrade -y
 
 WORKDIR /app
 
-# COPY package*.json ./
-# RUN npm install
+COPY package.json ./
+COPY package-lock.json ./
+RUN npm install
 
 COPY . .
 
