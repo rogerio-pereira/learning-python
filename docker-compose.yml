@@ -1,10 +1,103 @@
 services:
-  python-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: python_app
-    working_dir: /workspace
-    volumes:
-      - ./app:/workspace
-    # command: python main.py
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        working_dir: /workspace
+        volumes:
+            - ./app:/workspace
+        networks:
+            - mototrack
+        # command: python main.py
+
+    # ui:
+    #     build:
+    #         context: ./ui
+    #         dockerfile: Dockerfile
+    #     volumes:
+    #         - ./ui:/app
+    #     ports:
+    #         - "5173:5173"
+    #     networks:
+    #         - mototrack
+    #     command: "npm run dev -- --host 0.0.0.0"
+
+    postgres:
+        image: postgres:17.2-alpine3.21
+        environment:
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+            - POSTGRES_DB=${POSTGRES_DB}
+        ports:
+            - "5432:5432"
+        volumes:
+            # Make sure to create the .docker/postgres_data directory locally, if not it may cause permission issues
+            - .docker/postgres_data:/var/lib/postgresql/data
+        healthcheck:
+            test: ["CMD", "pg_isready", "-q", "-d", "${POSTGRES_DB}", "-U", "${POSTGRES_USER}"]
+            timeout: 5s
+            retries: 3
+        networks:
+            - mototrack
+
+    pgadmin:
+        image: dpage/pgadmin4:8
+        environment:
+            - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL}
+            - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD}
+        ports:
+            - "5050:80"
+        depends_on:
+            - postgres
+        networks:
+            - mototrack
+
+    localstack:
+        image: localstack/localstack:3
+        ports:
+            - "4566:4566"
+        networks:
+            - mototrack
+
+    minio:
+        image: minio/minio:latest
+        environment:
+            - MINIO_ROOT_USER=${MINIO_USER}
+            - MINIO_ROOT_PASSWORD=${MINIO_PASSWORD}
+        ports:
+            - "9000:9000"
+            - "8900:8900"
+        command: server /data --console-address ":8900"
+        volumes:
+            # Make sure to create the .docker/minio_data directory locally, if not it may cause permission issues
+            - .docker/minio_data:/data
+        networks:
+            - mototrack
+
+    minio_create_bucket:
+        image: minio/mc
+        depends_on:
+            - minio
+        entrypoint: >
+            /bin/sh -c "
+                /usr/bin/mc alias set local http://minio:9000 ${MINIO_USER} ${MINIO_PASSWORD} &&
+                /usr/bin/mc mb minio/mototrack || echo 'Bucket already exists'
+                /usr/bin/mc annonymous set public minio/mototrack'
+            "
+        networks:
+            - mototrack
+
+    mailpit:
+        image: axllent/mailpit:v1.18
+        ports:
+            - "1025:1025"
+            - "8025:8025"
+        networks:
+            - mototrack
+
+volumes:
+    postgres_data:
+    minio_data:
+networks:
+    mototrack:
+        driver: bridge
