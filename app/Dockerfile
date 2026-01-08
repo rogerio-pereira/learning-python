@@ -16,6 +16,9 @@ WORKDIR /var/www/app
 
 COPY . .
 
+# Auto-activate virtualenv when opening a shell in the container
+RUN echo 'source /var/www/app/.venv/bin/activate' >> /root/.bashrc
+
 COPY ./docker/container/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
