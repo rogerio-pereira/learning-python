@@ -12,6 +12,7 @@ class CreateUsersTable(Migration):
             table.string("remember_token").nullable()
             table.string("phone").nullable()
             table.timestamp("verified_at").nullable()
+            table.string("api_token").nullable()
             table.timestamps()
             table.soft_deletes()
 

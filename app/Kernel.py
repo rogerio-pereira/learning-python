@@ -9,12 +9,15 @@ from masonite.middleware import (
     EncryptCookies,
     LoadUserMiddleware,
     MaintenanceModeMiddleware,
+    GuardMiddleware,
 )
 from masonite.routes import Route
 from masonite.configuration.Configuration import Configuration
 from masonite.configuration import config
 
 from app.middlewares import VerifyCsrfToken, AuthenticationMiddleware
+
+from masonite.api.middleware import JWTAuthenticationMiddleware
 
 
 class Kernel:
@@ -24,6 +27,13 @@ class Kernel:
     route_middleware = {
         "web": [SessionMiddleware, LoadUserMiddleware, VerifyCsrfToken],
         "auth": [AuthenticationMiddleware],
+        "api": [
+            JWTAuthenticationMiddleware,
+            LoadUserMiddleware  # Allow to load authenticated user via toke
+        ],
+        "guard": [
+            GuardMiddleware # Custom middleware to guard routes via roles/permissions
+        ],
     }
 
     def __init__(self, app):
@@ -81,6 +91,7 @@ class Kernel:
                 load(self.application.make("routes.location"), "ROUTES"), middleware=["web"]
             )
         )
+        self.application.bind("routes.api.location", "routes/api")
 
     def register_database(self):
         from masoniteorm.query import QueryBuilder

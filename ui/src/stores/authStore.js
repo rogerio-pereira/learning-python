@@ -12,7 +12,7 @@ export const useAuthStore = defineStore('auth', () => {
     function checkUser()
     {
         //Check user staus
-        // axios.defaults.headers.common['X-Authorization'] = response.data.token
+        // axios.defaults.headers.common['Authorization'] = "Bearer "+response.data.token
         // user.value = response.data.user
         // userStore.setUser(user.value)
 
@@ -24,7 +24,7 @@ export const useAuthStore = defineStore('auth', () => {
         user.value = null
         userStore.setUser(null)
 
-        axios.defaults.headers.common['X-Authorization'] = null
+        axios.defaults.headers.common['Authorization'] = null
 
         router.push({name: 'home'})
     }

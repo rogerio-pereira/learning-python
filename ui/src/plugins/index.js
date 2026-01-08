@@ -11,7 +11,7 @@ axios.defaults.baseURL = import.meta.env.VITE_API_URL
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
 axios.defaults.headers.common['Accept'] = 'application/json'
 axios.defaults.headers.common['Content-Type'] = 'application/json'
-// axios.defaults.headers.common['X-Authorization'] = ''
+// axios.defaults.headers.common['Authorization'] = ''
 
 export function registerPlugins(app) {
     app.use(vuetify)

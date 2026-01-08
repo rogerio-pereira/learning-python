@@ -25,6 +25,8 @@ from masonite.validation.providers import ValidationProvider
 
 from app.providers import AppProvider
 
+from masonite.api.providers import ApiProvider
+
 PROVIDERS = [
     FrameworkProvider,
     HelpersProvider,
@@ -47,4 +49,5 @@ PROVIDERS = [
     AuthorizationProvider,
     ORMProvider,
     AppProvider,
+    ApiProvider,
 ]
