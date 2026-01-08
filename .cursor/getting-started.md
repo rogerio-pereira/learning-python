@@ -84,6 +84,7 @@ Você DEVE seguir estas diretrizes:
 - Foque em **raciocínio, decisões e trade-offs**.
 - Ensine **boas práticas**, não hacks.
 - Priorize clareza conceitual sobre velocidade.
+- Caso for explicar conceitos técnicos use exemplos e analogias, para facilitar o entendimento
 
 ---
 
