@@ -4,7 +4,7 @@
 Uso de FastAPI como backend
 
 ## Status
-Aceita
+Depreciada
 
 ## Data
 2026-01-06
@@ -13,7 +13,8 @@ Aceita
 Precisamos de um framework web para o backend do MotoTrack que seja leve, rápido e moderno.
 
 ## Decisão
-Escolhemos o FastAPI como framework principal do backend.
+Escolhemos o FastAPI como framework principal do backend.  
+Esta ADR foi substituída por `ADR-011-backend-masonite.md`.
 
 ## Consequências
 - Suporte nativo ao padrão **OpenAPI (Swagger)** para documentação automática da API.
