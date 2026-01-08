@@ -6,13 +6,22 @@ ENV PYTHONUNBUFFERED=1
 RUN apt-get update && \
     apt-get upgrade -y
 
+RUN pip install --upgrade pip
+
 WORKDIR /workspace
 
-# COPY requirements.txt .
-# COPY requirements-dev.txt .
-# RUN pip install --no-cache-dir -r requirements.txt \
-#     -r requirements-dev.txt
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+RUN npm install
 
 COPY . .
 
-CMD ["tail", "-f", "/dev/null"]
+COPY ./docker/container/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+EXPOSE 8000
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
+# CMD ["tail", "-f", "/dev/null"]
