@@ -3,14 +3,12 @@ services:
         build:
             context: ./app
             dockerfile: Dockerfile
-        working_dir: /workspace
         volumes:
-            - ./app:/workspace
+            - ./app:/var/www/app
         ports:
             - "8000:8000"
         networks:
             - mototrack
-        # command: python main.py
 
     ui:
         build:
