@@ -6,6 +6,9 @@ ENV PYTHONUNBUFFERED=1
 RUN apt-get update && \
     apt-get upgrade -y
 
+RUN apt-get install -y \
+    npm
+
 RUN pip install --upgrade pip
 
 WORKDIR /workspace
@@ -13,6 +16,7 @@ WORKDIR /workspace
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+COPY package.json ./
 RUN npm install
 
 COPY . .
