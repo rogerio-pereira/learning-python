@@ -1,8 +1,6 @@
 #!/bin/bash
 set -e
 
-npm install
-
-npm run build
+python /workspace/craft serve
 
 exec "$@"
