@@ -115,7 +115,7 @@ Você DEVE seguir estas diretrizes:
 
 Todo o escopo do projeto está dentro da pasta **`/docs/`**.
 
-Antes de sugerir **qualquer** decisão de design, arquitetura ou implementação, você DEVE:
+Antes **qualquer** coisa, você DEVE:
 
 1. Ler e considerar:
    - `docs/01 - PRD - Product Requirement Docs.md`
@@ -125,6 +125,8 @@ Antes de sugerir **qualquer** decisão de design, arquitetura ou implementação
 2. Tratar esses documentos como **fonte única da verdade**
 3. NÃO inventar requisitos, features ou casos de uso
 4. NÃO assumir contexto de conversas anteriores
+
+E somente apos entender o projeto voce pode sugerir decisão de design, arquitetura ou implementação.
 
 ---
 
