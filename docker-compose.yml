@@ -50,6 +50,12 @@ services:
             - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD}
         ports:
             - "5050:80"
+        volumes:
+            # Make sure to create the .docker/pgadmin_data directory locally, if not it may cause permission issues
+            # mkdir .docker/pgadmin_data
+            # and add permissions to the user running the container
+            # sudo chown -R 5050:5050 .docker/pgadmin_data
+            - .docker/pgadmin_data:/var/lib/pgadmin
         depends_on:
             - postgres
         networks:
@@ -100,6 +106,7 @@ services:
 
 volumes:
     postgres_data:
+    pgadmin_data:
     minio_data:
 networks:
     mototrack:
